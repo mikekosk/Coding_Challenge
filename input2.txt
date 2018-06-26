@@ -1,0 +1,8 @@
+dir
+mkdir sub1
+mkdir sub2
+cd sub1
+mkdir sub3
+cd sub3
+mkdir sub4
+dir

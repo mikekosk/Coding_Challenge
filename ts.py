@@ -20,6 +20,18 @@ class Console(object):
 
     def dir(self):
         """Print current directory and it's subidrectories."""
+
+        # dir_name = self.cur_directory.name
+        # cur_directory = self.cur_directory
+        #
+        # # while 1:
+        # #     if cur_directory.parent == None:
+        # #         cur_directory = 'Root'
+        # #         exit
+        # #     cur_directory = cur_directory.parent
+        # #     dir_name = cur_directory.name + "/" + dir_name
+        #
+        # print('Directory of %s' % dir_name)
         if not self.cur_directory.directories:
             print('No subdirectories')
         else:
@@ -29,18 +41,20 @@ class Console(object):
     def up(self):
         """Go up one level in directory"""
         if self.cur_directory.parent == None:
-            self.out.write('Cannot move up from root directory\n')
+            print('Cannot move up from root directory')
         self.cur_directory = self.cur_directory.parent
 
     def mkdir(self, name):
         """ Make a new directory """
-        new_dir = Directory(name, self.cur_directory)
-
         ## post error if duplicate directory exists, otherwise add directory
         for subs in self.cur_directory.directories:
             if subs.name == name:
                 print('Subdirectory already exists')
                 return
+
+        ## Save new path name
+        new_name = self.cur_directory.name + name + '/'
+        new_dir = Directory(new_name, self.cur_directory)
         self.cur_directory.add_sub(new_dir)
 
     def cd(self, name):
@@ -61,10 +75,11 @@ if __name__ == '__main__':
     out = open(sys.argv[2], 'w+')
     commands = infile.readlines()
     console = Console(out)
+    print("Directory Problem by Mike")
     for command in commands:
         tokens = command.split()
         if tokens[0] not in COMMANDS:
-             self.out.write('Command does not exist\n') ##TO DO
+             print('Command does not exist\n') ##TO DO
         else:
             if tokens[0] == 'dir':
                 print("Command: dir")
@@ -78,3 +93,4 @@ if __name__ == '__main__':
             else:
                 print("Command: %s %s") % (tokens[0], tokens[1])
                 console.cd(tokens[1])
+    print("End of Directory Problem by Mike")
