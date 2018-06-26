@@ -1,3 +1,5 @@
+## Michael Kosk, 06/25/18
+
 import sys
 
 COMMANDS = ['cd', 'dir', 'mkdir', 'up']
@@ -19,7 +21,6 @@ class Console(object):
 
     def dir(self):
         """Print current directory and it's subidrectories."""
-
         dir_name = '\\'
         cur_directory = self.cur_directory
 
@@ -48,24 +49,27 @@ class Console(object):
 
     def up(self):
         """Go up one level in directory"""
+        ## Nagivate to parent directory if exists, otherwise post error
         if self.cur_directory.parent == None:
             print('Cannot move up from root directory')
-        self.cur_directory = self.cur_directory.parent
+        else:
+            self.cur_directory = self.cur_directory.parent
 
     def mkdir(self, name):
         """ Make a new directory """
-        ## post error if duplicate directory exists, otherwise add directory
+        ## Post error if duplicate directory exists, otherwise add new directory
         for subs in self.cur_directory.directories:
             if subs.name == name:
                 print('Subdirectory already exists')
                 return
 
-        ## Save new path
+        ## Save new directory
         new_dir = Directory(name, self.cur_directory)
         self.cur_directory.add_sub(new_dir)
 
     def cd(self, name):
-        """ Change to a different directory """
+        """ Change to a sub-directory """
+        ## Navigate to sub-directory if exists, otherwise post error
         for sub_dir in self.cur_directory.directories:
             if sub_dir.name == name:
                 self.cur_directory = sub_dir
@@ -81,11 +85,16 @@ if __name__ == '__main__':
     infile = open(sys.argv[1], 'r')
     commands = infile.readlines()
     console = Console()
+
     print("Directory Problem by Mike")
     for command in commands:
         tokens = command.split()
         if tokens[0] not in COMMANDS:
-             print('Command does not exist\n') ##TO DO
+            print('Command does not exist')
+            exit()
+        elif len(tokens) > 2:
+            print('Too many tokens')
+            exit()
         else:
             if tokens[0] == 'dir':
                 print("Command: dir")
