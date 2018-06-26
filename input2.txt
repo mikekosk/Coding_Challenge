@@ -3,6 +3,7 @@ mkdir sub1
 mkdir sub2
 cd sub1
 mkdir sub3
+dir
 cd sub3
 mkdir sub4
 dir

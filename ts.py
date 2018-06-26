@@ -21,17 +21,24 @@ class Console(object):
     def dir(self):
         """Print current directory and it's subidrectories."""
 
-        # dir_name = self.cur_directory.name
-        # cur_directory = self.cur_directory
-        #
-        # # while 1:
-        # #     if cur_directory.parent == None:
-        # #         cur_directory = 'Root'
-        # #         exit
-        # #     cur_directory = cur_directory.parent
-        # #     dir_name = cur_directory.name + "/" + dir_name
-        #
-        # print('Directory of %s' % dir_name)
+        dir_name = '\\'
+        cur_directory = self.cur_directory
+
+        ## Find Current directory path
+        while 1:
+            if cur_directory.parent == None:
+                break
+            dir_name = '\\' + cur_directory.name + dir_name
+            cur_directory = cur_directory.parent
+
+        if dir_name == '\\':
+            dir_name = 'root'
+        else:
+            dir_name = 'root' + dir_name
+            dir_name = dir_name[0:-1] + ':'
+        print('Directory of %s' % dir_name)
+
+        ## Print subdirectories
         if not self.cur_directory.directories:
             print('No subdirectories')
         else:
@@ -53,8 +60,8 @@ class Console(object):
                 return
 
         ## Save new path name
-        new_name = self.cur_directory.name + name + '/'
-        new_dir = Directory(new_name, self.cur_directory)
+        # new_name = self.cur_directory.name + name + '/'
+        new_dir = Directory(name, self.cur_directory)
         self.cur_directory.add_sub(new_dir)
 
     def cd(self, name):
