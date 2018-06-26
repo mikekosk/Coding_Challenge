@@ -13,10 +13,9 @@ class Directory(object):
         self.directories.append(sub)
 
 class Console(object):
-    def __init__(self, out):
+    def __init__(self):
         self.root = Directory('/', None)
         self.cur_directory = self.root
-        self.out = out
 
     def dir(self):
         """Print current directory and it's subidrectories."""
@@ -32,7 +31,7 @@ class Console(object):
             cur_directory = cur_directory.parent
 
         if dir_name == '\\':
-            dir_name = 'root'
+            dir_name = 'root:'
         else:
             dir_name = 'root' + dir_name
             dir_name = dir_name[0:-1] + ':'
@@ -42,8 +41,10 @@ class Console(object):
         if not self.cur_directory.directories:
             print('No subdirectories')
         else:
+            vars = []
             for x in self.cur_directory.directories:
-                print(x.name)
+                vars.append(x.name)
+            print ' '.join(sorted(vars))
 
     def up(self):
         """Go up one level in directory"""
@@ -59,8 +60,7 @@ class Console(object):
                 print('Subdirectory already exists')
                 return
 
-        ## Save new path name
-        # new_name = self.cur_directory.name + name + '/'
+        ## Save new path
         new_dir = Directory(name, self.cur_directory)
         self.cur_directory.add_sub(new_dir)
 
@@ -76,12 +76,11 @@ class Console(object):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print "Usage: python console.py [command file] [output file]"
+        print "Usage: python console.py [command file] > [output file]"
         exit()
     infile = open(sys.argv[1], 'r')
-    out = open(sys.argv[2], 'w+')
     commands = infile.readlines()
-    console = Console(out)
+    console = Console()
     print("Directory Problem by Mike")
     for command in commands:
         tokens = command.split()
